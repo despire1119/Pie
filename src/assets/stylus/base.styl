@@ -1,0 +1,70 @@
+html, body, div, ul, li, h1, h2, h3, h4, h5, h6, p, dl, dt, dd, ol, form, input, textarea, th, td, select, i, b
+  margin 0
+  padding 0
+  font-style normal
+  border 0
+  outline none
+  background-color transparent
+a,
+button,
+input
+  -webkit-tap-highlight-color transparent
+*
+  box-sizing border-box
+html, body
+  min-height 100%
+  background-color #eef0f3
+  font-size 24px
+  color #000
+  -webkit-touch-callout none
+  -webkit-user-select none
+  -khtml-user-select none
+  -moz-user-select none
+  -ms-user-select none
+  user-select none
+h1, h2, h3, h4, h5, h6
+  font-weight normal
+ul, ol
+  list-style none
+img
+  border none
+  vertical-align middle
+a
+  &:link
+    color rgb(239, 62, 0)
+  &:visited
+    color rgb(239, 62, 0)
+    text-decoration none
+  &:active
+    coor rgb(239, 62, 0)
+  &:-webkit-any-link
+    color rgb(239, 62, 0)
+    text-decoration none
+button
+  border 0
+  padding 0
+  cursor pointer
+  outline none
+.router-view
+  overflow-x hidden
+.fade-enter-active, .fade-leave-active
+  transition all 0.3s
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */
+  opacity 0
+.slide-fade-enter-active
+  transition all 0.3s ease
+.slide-fade-leave-active
+  transition all 0.8s cubic-bezier(1, 0.5, 0.8, 1)
+.slide-fade-enter, .slide-fade-leave-to, transform translateX(10px)
+  opacity 0
+.bounce-enter-active
+  animation bounce-in 0.5s
+.bounce-leave-active
+  animation bounce-in 0.5s reverse
+@keyframes bounce-in
+  0%
+    transform scale(0)
+  50%
+    transform scale(1.5)
+  100%
+    transform scale(1)
