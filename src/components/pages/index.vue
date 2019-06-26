@@ -18,7 +18,7 @@
           <datetime class="time-hider" v-model="timer" format="YYYY年MM月" @on-change="toConsole"></datetime>
         </div>
       </div>
-      <ul class="count-area">
+      <ul class="count-area" v-if="type == 1">
         <li>
           <p class="contain">50</p>
           <p class="tit">总人数(人)</p>
@@ -28,8 +28,13 @@
           <p class="tit">已收人数(人)</p>
         </li>
       </ul>
+      <div class="count-area fee-all">
+        <p class="mount">￥52400</p>
+        <p class="tit">总收入(元)</p>
+      </div>
     </div>
-    <div class="echarts-area" ref="myEcharts"></div>
+    <div v-if="type == 1" class="echarts-area" ref="myEcharts"></div>
+    <div v-if="type == 2" class="echarts-area with-no-head" ref="myBar"></div>
     <div class="fee-detail">
       <p class="tit">收费明细</p>
       <ul class="detail-list">
@@ -160,6 +165,87 @@ export default {
     toConsole(item) {
       console.log(item);
     },
+    initBar() {
+      let myBar = this.$echarts.init(this.$refs.myBar);
+      myBar.setOption({
+        title: {
+          subtext: "(万元/园所)"
+        },
+        color: ["#d20133"],
+        tooltip: {
+          trigger: "axis",
+          axisPointer: {
+            // 坐标轴指示器，坐标轴触发有效
+            type: "shadow" // 默认为直线，可选为：'line' | 'shadow'
+          }
+        },
+        grid: {
+          left: "3%",
+          right: "4%",
+          bottom: "3%",
+          containLabel: true
+        },
+        xAxis: [
+          {
+            type: "category",
+            //根据接口数据结构编写计算属性（取名称push出list）
+            data: ["小红花", "小黄花", "小蓝花", "小绿花", "小青花"],
+            axisTick: {
+              alignWithLabel: true
+            },
+            axisLabel: {
+              textStyle: {
+                color: "#999"
+              }
+            },
+            axisLine: {
+              lineStyle: {
+                color: "#ddd"
+              }
+            }
+          }
+        ],
+        yAxis: {
+          axisTick: {
+            show: false
+          },
+          axisLabel: {
+            textStyle: {
+              color: "#999"
+            }
+          },
+          axisLine: {
+            lineStyle: {
+              color: "#ddd"
+            }
+          }
+        },
+        series: [
+          {
+            // For shadow
+            type: "bar",
+            itemStyle: {
+              normal: { color: "rgba(0,0,0,0.05)" }
+            },
+            barGap: "-100%",
+            barCategoryGap: "40%",
+            barWidth: "15%",
+            //柱子灰色半透明背景
+            //根据接口数据结构编写计算属性（取最大值 + 1 ，push出长度相同的list）
+            data: [10, 10, 10, 10, 10],
+            animation: false
+          },
+          {
+            name: "直接访问",
+            type: "bar",
+            barWidth: "15%",
+            //柱状图值
+            //根据接口数据结构编写计算属性（取接口值push出list）
+            data: [1, 5, 2, 4, 9]
+          }
+        ]
+      });
+    },
     initPie() {
       let myEcharts = this.$echarts.init(this.$refs.myEcharts);
       myEcharts.setOption({
@@ -224,10 +310,10 @@ export default {
     // XProgress
   },
   created() {
-    this.type = this.$route.query.type
+    this.type = this.$route.query.type;
   },
   mounted() {
-    this.initPie();
+    this.type == 1 ? this.initPie() : this.initBar();
   },
   computed: {
     // ...mapState({
@@ -311,11 +397,25 @@ export default {
     .tit
       font-size 26px
       color #9b9b9b
+  .fee-all
+    display flex
+    flex-direction column
+    justify-content center
+    p
+      text-align center
+    .mount
+      font-size 34px
+      color #d20133
+      font-weight bold
+    .tit
+      font-size 24px
 .echarts-area
   height 460px
   margin-top 20px
   padding-top 40px
   background-color #fff
+.with-no-head
+  padding-top 0
 .fee-detail
   margin-top 20px
   margin-bottom 20px
@@ -397,9 +497,7 @@ export default {
       border-radius 54px
       margin-right 40px
       margin-bottom 20px
-    .list-wrap
-      
-    .selected
+    .list-wrap, .selected
       background-color #d20133
       color #fff
       border-color #d20133
@@ -407,5 +505,5 @@ export default {
     flex-direction column
     // flex-wrap no-wrap
     li
-      max-width 200px 
+      max-width 200px
 </style>
