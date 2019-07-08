@@ -15,6 +15,14 @@ export default new Router({
       }
     },
     // {
+    //   path: '/detail',
+    //   name: 'detail',
+    //   component: resolve => require(['@/components/pages/detailList.vue'], resolve),
+    //   meta: {
+    //     title: '缴费明细'
+    //   }
+    // },
+    // {
     //   path: '/home',
     //   name: 'index',
     //   component: resolve => require(['@/components/pages/index'], resolve),
@@ -94,9 +102,9 @@ export default new Router({
     //     title: '进店顾客列表'
     //   }
     // },
-    {
-      path: '*',
-      redirect: '/error',
-    }
+    // {
+    //   path: '*',
+    //   redirect: '/error',
+    // }
   ]
 })
